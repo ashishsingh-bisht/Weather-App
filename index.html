@@ -2,20 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Weather App</title>
+  <title>India Weather App</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Weather App</h1>
-  <input type="text" id="cityInput" placeholder="Enter city name">
-  <button onclick="getWeather()">Get Weather</button>
-  
+  <h1>India Weather App</h1>
+
+  <select id="stateDropdown" onchange="loadDistricts()">
+    <option value="">Select State</option>
+  </select>
+
+  <select id="districtDropdown" onchange="loadPlaces()">
+    <option value="">Select District</option>
+  </select>
+
+  <select id="placeDropdown" onchange="fetchWeather()">
+    <option value="">Select Place</option>
+  </select>
+
   <div id="weatherResult">
     <h2 id="city"></h2>
     <p id="temp"></p>
     <p id="desc"></p>
   </div>
-  
+
+  <!-- Load JSON and script -->
+  <script src="locations.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
