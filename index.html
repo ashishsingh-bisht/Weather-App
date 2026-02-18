@@ -2,23 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>India Weather App</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>India Weather App</h1>
 
-  <select id="stateDropdown" onchange="loadDistricts()">
-    <option value="">Select State</option>
-  </select>
+  <h1>🌦 India Weather App</h1>
 
-  <select id="districtDropdown" onchange="loadPlaces()">
-    <option value="">Select District</option>
-  </select>
+  <div class="dropdown-container">
+    <select id="stateDropdown">
+      <option value="">Select State</option>
+    </select>
 
-  <select id="placeDropdown" onchange="fetchWeather()">
-    <option value="">Select Place</option>
-  </select>
+    <select id="districtDropdown" disabled>
+      <option value="">Select District</option>
+    </select>
+
+    <select id="placeDropdown" disabled>
+      <option value="">Select Place</option>
+    </select>
+  </div>
 
   <div id="weatherResult">
     <h2 id="city"></h2>
@@ -26,8 +30,9 @@
     <p id="desc"></p>
   </div>
 
-  <!-- Load JSON and script -->
-  <script src="locations.js"></script>
+  <!-- IMPORTANT: location.js must come first -->
+  <script src="location.js"></script>
   <script src="script.js"></script>
+
 </body>
 </html>
