@@ -1,13 +1,3 @@
-// Example data structure for locations
-const indiaLocations = {
-  Uttarakhand: {
-    Nainital: {
-      "Mallital": { lat: 29.3919, lon: 79.4542 },
-      "Tallital": { lat: 29.3780, lon: 79.4636 }
-    }
-  }
-};
-
 // Load states automatically when page opens
 window.onload = function() {
   const stateDropdown = document.getElementById("stateDropdown");
@@ -18,6 +8,7 @@ window.onload = function() {
 
 function loadDistricts() {
   const state = document.getElementById("stateDropdown").value;
+  console.log("Selected state:", state, indiaLocations[state]); // Debug line
   const districtDropdown = document.getElementById("districtDropdown");
   districtDropdown.innerHTML = "<option value=''>Select District</option>";
 
@@ -31,6 +22,7 @@ function loadDistricts() {
 function loadPlaces() {
   const state = document.getElementById("stateDropdown").value;
   const district = document.getElementById("districtDropdown").value;
+  console.log("Selected district:", district, indiaLocations[state][district]); // Debug line
   const placeDropdown = document.getElementById("placeDropdown");
   placeDropdown.innerHTML = "<option value=''>Select Place</option>";
 
@@ -53,6 +45,8 @@ async function fetchWeather() {
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 
   try {
+    document.getElementById("temp").innerText = "Fetching weather...";
+
     const response = await fetch(url);
     const data = await response.json();
 
@@ -63,7 +57,7 @@ async function fetchWeather() {
 
     document.getElementById("city").innerText = data.name;
     document.getElementById("temp").innerText = `Temperature: ${data.main.temp} °C`;
-    document.getElementById("weather").innerText = `Condition: ${data.weather[0].description}`;
+    document.getElementById("desc").innerText = `Condition: ${data.weather[0].description}`;
   } catch (error) {
     alert("Error fetching weather data");
     console.error(error);
