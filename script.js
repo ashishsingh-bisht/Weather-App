@@ -1,3 +1,13 @@
+// Example data structure for locations
+const indiaLocations = {
+  Uttarakhand: {
+    Nainital: {
+      "Mallital": { lat: 29.3919, lon: 79.4542 },
+      "Tallital": { lat: 29.3780, lon: 79.4636 }
+    }
+  }
+};
+
 // Load states automatically when page opens
 window.onload = function() {
   const stateDropdown = document.getElementById("stateDropdown");
@@ -39,7 +49,7 @@ async function fetchWeather() {
   if (!state || !district || !place) return;
 
   const { lat, lon } = indiaLocations[state][district][place];
-  const apiKey = "YOUR_API_KEY"; // Replace with your OpenWeatherMap API key
+  const apiKey = "4b2bb1752bce93d0df41adc6bfd3ff52"; // Your OpenWeatherMap API key
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 
   try {
@@ -52,4 +62,10 @@ async function fetchWeather() {
     }
 
     document.getElementById("city").innerText = data.name;
-    document.getElementById("temp").inner
+    document.getElementById("temp").innerText = `Temperature: ${data.main.temp} °C`;
+    document.getElementById("weather").innerText = `Condition: ${data.weather[0].description}`;
+  } catch (error) {
+    alert("Error fetching weather data");
+    console.error(error);
+  }
+}
