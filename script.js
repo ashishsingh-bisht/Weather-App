@@ -1,12 +1,55 @@
-async function getWeather() {
-  const city = document.getElementById("cityInput").value;
-  const apiKey = "YOUR_API_KEY"; // replace with your key
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+// Load states automatically when page opens
+window.onload = function() {
+  const stateDropdown = document.getElementById("stateDropdown");
+  Object.keys(indiaLocations).forEach(state => {
+    stateDropdown.innerHTML += `<option value="${state}">${state}</option>`;
+  });
+};
 
-  const response = await fetch(url);
-  const data = await response.json();
+function loadDistricts() {
+  const state = document.getElementById("stateDropdown").value;
+  const districtDropdown = document.getElementById("districtDropdown");
+  districtDropdown.innerHTML = "<option value=''>Select District</option>";
 
-  document.getElementById("city").innerText = data.name;
-  document.getElementById("temp").innerText = data.main.temp + " °C";
-  document.getElementById("desc").innerText = data.weather[0].description;
+  if (state && indiaLocations[state]) {
+    Object.keys(indiaLocations[state]).forEach(district => {
+      districtDropdown.innerHTML += `<option value="${district}">${district}</option>`;
+    });
+  }
 }
+
+function loadPlaces() {
+  const state = document.getElementById("stateDropdown").value;
+  const district = document.getElementById("districtDropdown").value;
+  const placeDropdown = document.getElementById("placeDropdown");
+  placeDropdown.innerHTML = "<option value=''>Select Place</option>";
+
+  if (state && district && indiaLocations[state][district]) {
+    Object.keys(indiaLocations[state][district]).forEach(place => {
+      placeDropdown.innerHTML += `<option value="${place}">${place}</option>`;
+    });
+  }
+}
+
+async function fetchWeather() {
+  const state = document.getElementById("stateDropdown").value;
+  const district = document.getElementById("districtDropdown").value;
+  const place = document.getElementById("placeDropdown").value;
+
+  if (!state || !district || !place) return;
+
+  const { lat, lon } = indiaLocations[state][district][place];
+  const apiKey = "YOUR_API_KEY"; // Replace with your OpenWeatherMap API key
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.cod !== 200) {
+      alert("Weather data not found");
+      return;
+    }
+
+    document.getElementById("city").innerText = data.name;
+    document.getElementById("temp").inner
