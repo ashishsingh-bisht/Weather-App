@@ -1,123 +1,42 @@
-/* ----------------------------
-   Global Styles
------------------------------ */
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: "Segoe UI", Arial, sans-serif;
-}
-
 body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #74ebd5, #acb6e5);
-  padding: 20px;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 30px;
+  background: linear-gradient(to right, #74ebd5, #ACB6E5);
 }
-
-/* ----------------------------
-   Header
------------------------------ */
 
 h1 {
-  margin-bottom: 25px;
-  font-size: 28px;
   color: #222;
 }
 
-/* ----------------------------
-   Dropdown Section
------------------------------ */
-
 .dropdown-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
-  margin-bottom: 25px;
+  margin: 20px 0;
 }
 
 select {
-  padding: 10px 14px;
+  margin: 10px;
+  padding: 8px;
   font-size: 14px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
+  border-radius: 6px;
+  border: none;
   outline: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  background-color: white;
 }
-
-select:hover {
-  border-color: #555;
-}
-
-select:disabled {
-  background-color: #f3f3f3;
-  cursor: not-allowed;
-}
-
-/* ----------------------------
-   Weather Card
------------------------------ */
 
 #weatherResult {
+  margin-top: 20px;
+  padding: 20px;
   background: white;
-  padding: 25px;
-  border-radius: 14px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  min-width: 280px;
-  max-width: 350px;
-  transition: transform 0.2s ease;
+  display: inline-block;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  min-width: 250px;
 }
 
-#weatherResult:hover {
-  transform: translateY(-4px);
-}
-
-#city {
-  margin-bottom: 10px;
-  font-size: 20px;
-  color: #333;
-}
-
-#temp {
-  font-size: 18px;
-  margin-bottom: 8px;
-  font-weight: 600;
-}
-
-#desc {
+#temp, #desc {
   font-size: 16px;
-  color: #555;
 }
-
-/* ----------------------------
-   Hidden Utility Class
------------------------------ */
 
 .hidden {
   display: none;
-}
-
-/* ----------------------------
-   Responsive
------------------------------ */
-
-@media (max-width: 480px) {
-  h1 {
-    font-size: 22px;
-  }
-
-  select {
-    width: 100%;
-  }
-
-  #weatherResult {
-    width: 100%;
-  }
 }
