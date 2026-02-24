@@ -1,151 +1,98 @@
-document.addEventListener("DOMContentLoaded", initApp);
-
-function initApp() {
+document.addEventListener("DOMContentLoaded", () => {
   const stateDropdown = document.getElementById("stateDropdown");
   const districtDropdown = document.getElementById("districtDropdown");
   const placeDropdown = document.getElementById("placeDropdown");
+  const weatherResult = document.getElementById("weatherResult");
+  const city = document.getElementById("city");
+  const temp = document.getElementById("temp");
+  const desc = document.getElementById("desc");
 
-  const weatherSection = document.getElementById("weatherResult");
-  const cityEl = document.getElementById("city");
-  const tempEl = document.getElementById("temp");
-  const descEl = document.getElementById("desc");
-
-  // Hide weather initially
-  weatherSection.classList.add("hidden");
-
-  loadStates(stateDropdown);
-
-  stateDropdown.addEventListener("change", () =>
-    handleStateChange(stateDropdown, districtDropdown, placeDropdown)
-  );
-
-  districtDropdown.addEventListener("change", () =>
-    handleDistrictChange(stateDropdown, districtDropdown, placeDropdown)
-  );
-
-  placeDropdown.addEventListener("change", () =>
-    fetchWeather(stateDropdown, districtDropdown, placeDropdown, {
-      weatherSection,
-      cityEl,
-      tempEl,
-      descEl,
-    })
-  );
-}
-
-/* ---------------------------
-   Load States
----------------------------- */
-function loadStates(stateDropdown) {
-  Object.keys(indiaLocations).forEach((state) => {
-    const option = createOption(state);
+  // Load States
+  Object.keys(indiaLocations).forEach(state => {
+    const option = document.createElement("option");
+    option.value = state;
+    option.textContent = state;
     stateDropdown.appendChild(option);
   });
-}
 
-/* ---------------------------
-   Handle State Change
----------------------------- */
-function handleStateChange(stateDropdown, districtDropdown, placeDropdown) {
-  const state = stateDropdown.value;
+  // State Change
+  stateDropdown.addEventListener("change", () => {
+    const state = stateDropdown.value;
 
-  resetDropdown(districtDropdown, "Select District");
-  resetDropdown(placeDropdown, "Select Place");
-  placeDropdown.disabled = true;
-
-  if (!state) {
-    districtDropdown.disabled = true;
-    return;
-  }
-
-  districtDropdown.disabled = false;
-
-  Object.keys(indiaLocations[state]).forEach((district) => {
-    districtDropdown.appendChild(createOption(district));
-  });
-}
-
-/* ---------------------------
-   Handle District Change
----------------------------- */
-function handleDistrictChange(stateDropdown, districtDropdown, placeDropdown) {
-  const state = stateDropdown.value;
-  const district = districtDropdown.value;
-
-  resetDropdown(placeDropdown, "Select Place");
-
-  if (!district) {
+    districtDropdown.innerHTML = `<option value="">Select District</option>`;
+    placeDropdown.innerHTML = `<option value="">Select Place</option>`;
     placeDropdown.disabled = true;
-    return;
-  }
 
-  placeDropdown.disabled = false;
-
-  Object.keys(indiaLocations[state][district]).forEach((place) => {
-    placeDropdown.appendChild(createOption(place));
-  });
-}
-
-/* ---------------------------
-   Fetch Weather
----------------------------- */
-async function fetchWeather(
-  stateDropdown,
-  districtDropdown,
-  placeDropdown,
-  elements
-) {
-  const state = stateDropdown.value;
-  const district = districtDropdown.value;
-  const place = placeDropdown.value;
-
-  if (!state || !district || !place) return;
-
-  const { lat, lon } = indiaLocations[state][district][place];
-
-  const API_KEY = "YOUR_API_KEY_HERE";
-  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
-
-  try {
-    elements.weatherSection.classList.remove("hidden");
-    elements.tempEl.textContent = "Fetching weather...";
-    elements.descEl.textContent = "";
-
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch weather");
+    if (!state) {
+      districtDropdown.disabled = true;
+      return;
     }
 
-    const data = await response.json();
+    districtDropdown.disabled = false;
 
-    elements.cityEl.textContent = data.name;
-    elements.tempEl.textContent = `🌡 Temperature: ${data.main.temp} °C`;
-    elements.descEl.textContent = `🌥 Condition: ${capitalize(
-      data.weather[0].description
-    )}`;
-  } catch (error) {
-    elements.tempEl.textContent = "❌ Error fetching weather";
-    console.error("Weather Error:", error);
-  }
-}
+    Object.keys(indiaLocations[state]).forEach(district => {
+      const option = document.createElement("option");
+      option.value = district;
+      option.textContent = district;
+      districtDropdown.appendChild(option);
+    });
+  });
 
-/* ---------------------------
-   Helper Functions
----------------------------- */
+  // District Change
+  districtDropdown.addEventListener("change", () => {
+    const state = stateDropdown.value;
+    const district = districtDropdown.value;
 
-function createOption(value) {
-  const option = document.createElement("option");
-  option.value = value;
-  option.textContent = value;
-  return option;
-}
+    placeDropdown.innerHTML = `<option value="">Select Place</option>`;
 
-function resetDropdown(dropdown, placeholder) {
-  dropdown.innerHTML = `<option value="">${placeholder}</option>`;
-  dropdown.disabled = false;
-}
+    if (!district) {
+      placeDropdown.disabled = true;
+      return;
+    }
 
-function capitalize(text) {
-  return text.charAt(0).toUpperCase() + text.slice(1);
-}
+    placeDropdown.disabled = false;
+
+    Object.keys(indiaLocations[state][district]).forEach(place => {
+      const option = document.createElement("option");
+      option.value = place;
+      option.textContent = place;
+      placeDropdown.appendChild(option);
+    });
+  });
+
+  // Place Change
+  placeDropdown.addEventListener("change", async () => {
+    const state = stateDropdown.value;
+    const district = districtDropdown.value;
+    const place = placeDropdown.value;
+
+    if (!state || !district || !place) return;
+
+    const { lat, lon } = indiaLocations[state][district][place];
+
+    const API_KEY = "YOUR_API_KEY_HERE";
+
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
+
+    try {
+      weatherResult.classList.remove("hidden");
+      temp.textContent = "Fetching weather...";
+      desc.textContent = "";
+
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error("Weather not found");
+      }
+
+      city.textContent = data.name;
+      temp.textContent = `🌡 Temperature: ${data.main.temp} °C`;
+      desc.textContent = `🌥 Condition: ${data.weather[0].description}`;
+
+    } catch (error) {
+      temp.textContent = "❌ Error fetching weather";
+      console.error(error);
+    }
+  });
+});
