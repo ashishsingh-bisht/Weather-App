@@ -1,42 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>India Weather App</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-  <header>
-    <h1>🌦 India Weather App</h1>
-  </header>
+  <h1>🌦 India Weather App</h1>
 
-  <main>
-    <section class="dropdown-container">
-      <select id="stateDropdown">
-        <option value="">Select State</option>
-      </select>
+  <div class="dropdown-container">
+    <select id="stateDropdown">
+      <option value="">Select State</option>
+    </select>
 
-      <select id="districtDropdown" disabled>
-        <option value="">Select District</option>
-      </select>
+    <select id="districtDropdown" disabled>
+      <option value="">Select District</option>
+    </select>
 
-      <select id="placeDropdown" disabled>
-        <option value="">Select Place</option>
-      </select>
-    </section>
+    <select id="placeDropdown" disabled>
+      <option value="">Select Place</option>
+    </select>
+  </div>
 
-    <section id="weatherResult" class="hidden">
-      <h2 id="city"></h2>
-      <p id="temp"></p>
-      <p id="desc"></p>
-    </section>
-  </main>
+  <div id="weatherResult" class="hidden">
+    <h2 id="city"></h2>
+    <p id="temp"></p>
+    <p id="desc"></p>
+  </div>
 
-  <script src="js/location.js" defer></script>
-  <script src="js/script.js" defer></script>
+  <script src="location.js"></script>
+  <script src="script.js"></script>
 
 </body>
 </html>
