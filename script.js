@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const { lat, lon } = indiaLocations[state][district][place];
 
-    const API_KEY = "ece98ec83a6650351cf66db475256c61";
+    const API_KEY = "4b2bb1752bce93d0df41adc6bfd3ff52";
 
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
 
